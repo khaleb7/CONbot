@@ -58,7 +58,12 @@ def gensched(gconnumeric):
             gameid = eventelements[0]
             gamecost = eventelements[-2]
             gamegm = eventelements[-4]
-            gamelocation = eventelements[-5].replace('\n', '')
+	    if ':' in eventelements[-5]:
+                gamelocation = eventelements[-5].replace('\n', '')
+	    if ':' in eventelements[-4]:
+                gamelocation = eventelements[-4].replace('\n', '')
+	    if ':' in eventelements[-3]:
+                gamelocation = eventelements[-3].replace('\n', '')
             gameduration = eventelements[-6]
             gamemaxp = eventelements[-10]
             gameminp = eventelements[-11]
@@ -91,14 +96,15 @@ def gensched(gconnumeric):
             gamerules = eventrules[0]
         else:
             gamerules=" "
-
-        updatenow = (time.strftime("%Y/%m/%d %I:%M:%S"))
-        conn = sqlite3.connect('./gendb')
-
+	updatenow = int(time.time())
+        #updatenow = (time.strftime("%Y/%m/%d %I:%M:%S"))
+        conn = sqlite3.connect('/home/ec2-user/gendb')
+	eventlen = len(eventelements)
         blobby = str()
         #print blob
-        print(gameid, gametitle, gamedescription, gamelocation, gametype, gamegm, gamestart, gameend, gamerules,eventurl,updatenow)
-        conn.execute("REPLACE INTO EVENTS (GAMEID, GAMETITLE, GAMEDESCRIPTION, GAMELOCATION, GAMETYPE, GAMEGM, GAMESTART, GAMEEND, GAMERULES, GCONWEB, UPDATED, BLOB) \
+        print(gameid, gametitle, gamedescription, gamelocation, gametype, gamegm, gamestart, gameend, gamerules,eventurl,updatenow, eventlen)
+       	#print(eventelements[-1],eventelements[-2],eventelements[-3],eventelements[-4],eventelements[-5],eventelements[-6],eventelements[-7],eventlen) 
+	conn.execute("REPLACE INTO EVENTS (GAMEID, GAMETITLE, GAMEDESCRIPTION, GAMELOCATION, GAMETYPE, GAMEGM, GAMESTART, GAMEEND, GAMERULES, GCONWEB, UPDATED, BLOB) \
              VALUES (?,?,?,?,?,?,?,?,?,?,?,0)",(gameid, gametitle, gamedescription, gamelocation, gametype, gamegm, gamestart, gameend, gamerules,eventurl,updatenow));
         #cur.execute("insert into contacts (name, phone, email) values (?, ?, ?)",
             #(name, phone, email))

@@ -26,7 +26,7 @@ def health(message, regexstuff, regextwo, regexthree="Null"):
     eventid="%" + regexthree + "%"
     eventtype="%" + regexstuff + "%"
     eventday="%" + regextwo + "%"
-    cursor.execute('SELECT GAMEID, GAMETITLE, GAMEDESCRIPTION, GAMELOCATION, GAMESTART, GCONWEB FROM EVENTS where (GAMEDESCRIPTION LIKE "{event}" OR GAMERULES LIKE "{event}" OR GAMETITLE LIKE "{event}" OR GAMELOCATION LIKE "{event}") AND GAMETYPE LIKE "{eventtype}" AND GAMESTART LIKE "{eventday}"'.format(event=eventid,eventtype=eventtype,eventday=eventday))
+    cursor.execute('SELECT GAMEID, GAMETITLE, GAMEDESCRIPTION, GAMELOCATION, GAMESTART, GCONWEB, UPDATED FROM EVENTS where (GAMEDESCRIPTION LIKE "{event}" OR GAMERULES LIKE "{event}" OR GAMETITLE LIKE "{event}" OR GAMELOCATION LIKE "{event}") AND GAMETYPE LIKE "{eventtype}" AND GAMESTART LIKE "{eventday}"'.format(event=eventid,eventtype=eventtype,eventday=eventday))
     all_rows = cursor.fetchall()
     unshown=0
     addtitle = ['']
@@ -38,7 +38,7 @@ def health(message, regexstuff, regextwo, regexthree="Null"):
            if title not in addtitle:
                 addtitle.append(title)
         else:
-            id, title, description, location, start, gconweb = row
+            id, title, description, location, start, gconweb, updated = row
             attachments = [
             {
             "fallback": "Event Description",
@@ -58,7 +58,7 @@ def health(message, regexstuff, regextwo, regexthree="Null"):
             ],
             "footer": "CONbot",
             "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-            "ts": 2017 
+            "ts": updated 
             }
             ]
 
