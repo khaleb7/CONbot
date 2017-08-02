@@ -98,7 +98,7 @@ def gensched(gconnumeric):
             gamerules=" "
 	updatenow = int(time.time())
         #updatenow = (time.strftime("%Y/%m/%d %I:%M:%S"))
-        conn = sqlite3.connect('/home/ec2-user/gendb')
+        conn = sqlite3.connect('/conbot/CONbot/gendb')
 	eventlen = len(eventelements)
         blobby = str()
         #print blob
